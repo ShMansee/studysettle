@@ -780,3 +780,6 @@ main { flex: 1; }
   .form-card  { padding: 24px 18px; }
   .lang-btn   { padding: 4px 7px; font-size: .75rem; }
 }
+
+.link-list a { text-decoration: underline; }
+.link-list a:hover { opacity: 0.85; }
