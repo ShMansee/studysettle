@@ -1,36 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>StudySettle Baku</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>StudySettle Baku</title>
 </head>
 <body>
-   <nav class="nav">
-        <ul>
-         <li><a href="index.html" data-i18n="nav_home">Home</a></li>
-<li><a href="pages/documents.html" data-i18n="nav_documents">Documents</a></li>
-<li><a href="pages/housing.html" data-i18n="nav_housing">Housing</a></li>
-<li><a href="pages/explore.html" data-i18n="nav_explore">Explore</a></li>
-<li><a href="pages/essentials.html" data-i18n="nav_essentials">Essentials</a></li>
-<li><a href="pages/login.html" data-i18n="nav_login">Login</a></li>
-<li><a href="pages/register.html" data-i18n="nav_register">Register</a></li>
-<li><a href="pages/dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-<li><a href="pages/admin.html" data-i18n="nav_admin">Admin</a></li>
-        </ul>
-        <div>
-            <button id="lang-en">EN</button>
-            <button id="lang-az">AZ</button>
-            <button id="lang-ru">RU</button>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html"              data-i18n="nav_home">Home</a></li>
+      <li><a href="pages/documents.html"    data-i18n="nav_documents">Documents</a></li>
+      <li><a href="pages/housing.html"      data-i18n="nav_housing">Housing</a></li>
+      <li><a href="pages/explore.html"      data-i18n="nav_explore">Explore</a></li>
+      <li><a href="pages/essentials.html"   data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="pages/login.html"        data-i18n="nav_login">Login</a></li>
+      <li><a href="pages/register.html"     data-i18n="nav_register">Register</a></li>
+      <li><a href="pages/dashboard.html"    data-i18n="nav_dashboard">Dashboard</a></li>
+    </ul>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+      <select id="university-selector" class="university-select">
+        <option value="ada">ADA University</option>
+        <option value="baku-state">Baku State University</option>
+        <option value="unec">UNEC</option>
+        <option value="khazar">Khazar University</option>
+      </select>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 data-i18n="hero_title">Your Student Relocation Guide for Baku</h1>
+      <p data-i18n="hero_subtitle">Everything you need to settle in Baku as an international student — documents, housing, transport, and more.</p>
+      <a href="pages/documents.html" class="btn btn-white" data-i18n="hero_cta">Explore Guides</a>
+    </div>
+  </section>
+
+  <!-- Feature cards -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title" data-i18n="title">StudySettle Baku</h2>
+      <p class="section-subtitle" data-i18n="subtitle">Your student relocation helper for Baku</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">📄</div>
+          <h3 data-i18n="feat_documents">Documents</h3>
+          <p data-i18n="feat_documents_desc">Visa, residence permit, registration — step-by-step checklist for every document you need.</p>
+          <a href="pages/documents.html" class="btn btn-primary btn-sm" data-i18n="nav_documents">Documents</a>
         </div>
-        <select id="university-selector">
-            <option value="ada">ADA University</option>
-            <option value="baku-state">Baku State University</option>
-            <option value="unec">UNEC</option>
-            <option value="khazar">Khazar University</option>
-        </select>
-    </nav>
-    <script type="module" src="js/app.js"></script>
+        <div class="card">
+          <div class="card-icon">🏠</div>
+          <h3 data-i18n="feat_housing">Housing</h3>
+          <p data-i18n="feat_housing_desc">Find the right neighbourhood, avoid scams, and get fair price estimates for Baku apartments.</p>
+          <a href="pages/housing.html" class="btn btn-primary btn-sm" data-i18n="nav_housing">Housing</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">🗺️</div>
+          <h3 data-i18n="feat_explore">Explore Baku</h3>
+          <p data-i18n="feat_explore_desc">Metro, buses, SIM cards, banks — learn how to navigate city life from day one.</p>
+          <a href="pages/explore.html" class="btn btn-primary btn-sm" data-i18n="nav_explore">Explore</a>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3 data-i18n="feat_essentials">Essentials</h3>
+          <p data-i18n="feat_essentials_desc">Emergency numbers, cost of living estimates, and useful apps for everyday life.</p>
+          <a href="pages/essentials.html" class="btn btn-primary btn-sm" data-i18n="nav_essentials">Essentials</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
 </body>
 </html>

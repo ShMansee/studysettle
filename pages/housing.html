@@ -7,30 +7,212 @@
   <title>Housing • StudySettle</title>
 </head>
 <body>
+
+<header class="site-header">
   <nav class="nav">
-    <ul>
-      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
-      <li><a href="documents.html" data-i18n="nav_documents">Documents</a></li>
-      <li><a href="housing.html" data-i18n="nav_housing">Housing</a></li>
-      <li><a href="explore.html" data-i18n="nav_explore">Explore</a></li>
-      <li><a href="essentials.html" data-i18n="nav_essentials">Essentials</a></li>
-      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
-      <li><a href="register.html" data-i18n="nav_register">Register</a></li>
-      <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-      <li><a href="admin.html" data-i18n="nav_admin">Admin</a></li>
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html"       data-i18n="nav_home">Home</a></li>
+      <li><a href="documents.html"      data-i18n="nav_documents">Documents</a></li>
+      <li><a href="housing.html"        data-i18n="nav_housing">Housing</a></li>
+      <li><a href="explore.html"        data-i18n="nav_explore">Explore</a></li>
+      <li><a href="essentials.html"     data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="login.html"          data-i18n="nav_login">Login</a></li>
+      <li><a href="register.html"       data-i18n="nav_register">Register</a></li>
+      <li><a href="dashboard.html"      data-i18n="nav_dashboard">Dashboard</a></li>
     </ul>
-    <div>
-      <button id="lang-en">EN</button>
-      <button id="lang-az">AZ</button>
-      <button id="lang-ru">RU</button>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+      <select id="university-selector" class="university-select">
+        <option value="ada">ADA University</option>
+        <option value="baku-state">Baku State University</option>
+        <option value="unec">UNEC</option>
+        <option value="khazar">Khazar University</option>
+      </select>
     </div>
   </nav>
+</header>
 
-  <main class="container">
-    <h1 data-i18n="nav_housing">Housing</h1>
-    <p>Coming soon.</p>
-  </main>
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>🏠 <span data-i18n="nav_housing">Housing</span></h1>
+      <p>Find the right neighbourhood, know what to expect, and avoid common rental pitfalls in Baku.</p>
+    </div>
+  </div>
 
-  <script type="module" src="../js/app.js"></script>
+  <div class="container section">
+
+    <div class="alert alert-info">
+      ℹ️ Rental prices listed are approximate ranges based on 2024–2025 data. Always negotiate and inspect the apartment before signing.
+    </div>
+
+    <!-- Areas -->
+    <h2 class="section-title">Popular Areas for Students</h2>
+    <p class="section-subtitle">Choose based on proximity to your university and budget.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-header">
+          <span class="icon">📍</span>
+          <h3>Nərimanov / Neftçilər</h3>
+        </div>
+        <div class="info-card-body">
+          <p>Central location, close to BSU and UNEC. Good metro access. Busy and lively.</p>
+          <p style="margin-top:10px"><strong>1-room apt:</strong> 350–550 AZN/month<br>
+          <strong>2-room apt:</strong> 500–800 AZN/month</p>
+          <div style="margin-top:10px">
+            <span class="tag">Near metro</span>
+            <span class="tag">BSU</span>
+            <span class="tag">UNEC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <span class="icon">📍</span>
+          <h3>Sahil / İçərişəhər</h3>
+        </div>
+        <div class="info-card-body">
+          <p>Premium central area. Close to ADA University shuttle stops and the Caspian seafront. Higher prices.</p>
+          <p style="margin-top:10px"><strong>1-room apt:</strong> 500–750 AZN/month<br>
+          <strong>2-room apt:</strong> 750–1200 AZN/month</p>
+          <div style="margin-top:10px">
+            <span class="tag">Central</span>
+            <span class="tag">ADA</span>
+            <span class="tag">Premium</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <span class="icon">📍</span>
+          <h3>Xətai / 8 Noyabr</h3>
+        </div>
+        <div class="info-card-body">
+          <p>Popular with students for affordability. Close to Khazar University. Quieter residential feel.</p>
+          <p style="margin-top:10px"><strong>1-room apt:</strong> 250–400 AZN/month<br>
+          <strong>2-room apt:</strong> 380–600 AZN/month</p>
+          <div style="margin-top:10px">
+            <span class="tag">Affordable</span>
+            <span class="tag">Khazar</span>
+            <span class="tag">Residential</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <span class="icon">📍</span>
+          <h3>Binəqədi / Masazır</h3>
+        </div>
+        <div class="info-card-body">
+          <p>Outer districts — most affordable, good for students on a tight budget. Longer commute but cheap.</p>
+          <p style="margin-top:10px"><strong>1-room apt:</strong> 150–280 AZN/month<br>
+          <strong>2-room apt:</strong> 250–380 AZN/month</p>
+          <div style="margin-top:10px">
+            <span class="tag">Budget</span>
+            <span class="tag">Outer area</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What to ask -->
+    <h2 class="section-title" style="margin-top:48px">What to Ask Before Signing</h2>
+    <p class="section-subtitle">Never skip these questions when viewing an apartment.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">📋</span><h3>Contract &amp; Legality</h3></div>
+        <div class="info-card-body">
+          <ul>
+            <li>Is a written rental contract available?</li>
+            <li>Is the landlord the actual owner? Ask for property documents.</li>
+            <li>Is the contract in Azerbaijani + English/Russian?</li>
+            <li>Who handles utility bills — you or landlord?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">🔑</span><h3>Apartment Condition</h3></div>
+        <div class="info-card-body">
+          <ul>
+            <li>Check hot water, heating, and electricity in all rooms.</li>
+            <li>Test internet speed / confirm provider available.</li>
+            <li>Check locks, windows, doors.</li>
+            <li>Ask about noise levels (above/below neighbours, street).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">💰</span><h3>Costs &amp; Deposits</h3></div>
+        <div class="info-card-body">
+          <ul>
+            <li>What is the security deposit? (Typically 1 month's rent.)</li>
+            <li>Are there agency fees? (Usually 50% of 1 month's rent.)</li>
+            <li>When and how is rent paid? Cash vs bank transfer?</li>
+            <li>What happens if you leave early?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scam avoidance -->
+    <h2 class="section-title" style="margin-top:48px">Scam Avoidance Tips</h2>
+    <div class="alert alert-warning">
+      ⚠️ <strong>Never pay any money before you see the apartment in person</strong> and verify the landlord owns it.
+    </div>
+    <div class="checklist-section">
+      <ul class="checklist">
+        <li><span class="check-icon">⛔</span>
+          <div class="item-text"><strong>Too cheap = red flag</strong><span>If the price is significantly below market, be suspicious. Ask yourself why.</span></div>
+        </li>
+        <li><span class="check-icon">⛔</span>
+          <div class="item-text"><strong>No contract offered</strong><span>Always insist on a written contract. Verbal agreements offer no protection.</span></div>
+        </li>
+        <li><span class="check-icon">⛔</span>
+          <div class="item-text"><strong>Pressure to pay immediately</strong><span>Legitimate landlords allow you time to decide. Any urgency is a pressure tactic.</span></div>
+        </li>
+        <li><span class="check-icon">✔</span>
+          <div class="item-text"><strong>Use recommended platforms</strong><span>Try <strong>tap.az</strong> or <strong>bina.az</strong> for listings. Ask fellow students for referrals too.</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Useful links -->
+    <h2 class="section-title" style="margin-top:40px">Useful Platforms</h2>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">🔗</span><h3>tap.az</h3></div>
+        <div class="info-card-body"><p>Popular classifieds site for rentals and sales in Baku. Filter by district, rooms, price.</p></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">🔗</span><h3>bina.az</h3></div>
+        <div class="info-card-body"><p>Real-estate portal with verified listings, map search, and price history.</p></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header"><span class="icon">👥</span><h3>University Groups</h3></div>
+        <div class="info-card-body"><p>Check your university's international student Facebook or WhatsApp groups — fellow students often post sublets and roommate searches.</p></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script type="module" src="../js/app.js"></script>
 </body>
 </html>
