@@ -7,30 +7,132 @@
   <title>Essentials • StudySettle</title>
 </head>
 <body>
- <nav class="nav">
-    <ul>
-      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
-      <li><a href="documents.html" data-i18n="nav_documents">Documents</a></li>
-      <li><a href="housing.html" data-i18n="nav_housing">Housing</a></li>
-      <li><a href="explore.html" data-i18n="nav_explore">Explore</a></li>
-      <li><a href="essentials.html" data-i18n="nav_essentials">Essentials</a></li>
-      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
-      <li><a href="register.html" data-i18n="nav_register">Register</a></li>
-      <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-      <li><a href="admin.html" data-i18n="nav_admin">Admin</a></li>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html"       data-i18n="nav_home">Home</a></li>
+      <li><a href="documents.html"      data-i18n="nav_documents">Documents</a></li>
+      <li><a href="housing.html"        data-i18n="nav_housing">Housing</a></li>
+      <li><a href="explore.html"        data-i18n="nav_explore">Explore</a></li>
+      <li><a href="essentials.html"     data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="login.html"          data-i18n="nav_login">Login</a></li>
+      <li><a href="register.html"       data-i18n="nav_register">Register</a></li>
+      <li><a href="dashboard.html"      data-i18n="nav_dashboard">Dashboard</a></li>
     </ul>
-    <div>
-      <button id="lang-en">EN</button>
-      <button id="lang-az">AZ</button>
-      <button id="lang-ru">RU</button>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+      <select id="university-selector" class="university-select">
+        <option value="ada">ADA University</option>
+        <option value="baku-state">Baku State University</option>
+        <option value="unec">UNEC</option>
+        <option value="khazar">Khazar University</option>
+      </select>
     </div>
   </nav>
+</header>
 
-  <main class="container">
-    <h1 data-i18n="nav_essentials">Essentials</h1>
-    <p>Coming soon.</p>
-  </main>
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>⚡ <span data-i18n="nav_essentials">Essentials</span></h1>
+      <p>Emergency numbers, cost of living, useful apps and key links — all in one place.</p>
+    </div>
+  </div>
 
-  <script type="module" src="../js/app.js"></script>
+  <div class="container section">
+
+    <!-- Emergency Numbers -->
+    <div class="essentials-block">
+      <div class="essentials-block-header">🚨 Emergency Numbers</div>
+      <table class="essentials-table">
+        <tr><td>Police</td><td>102</td></tr>
+        <tr><td>Ambulance</td><td>103</td></tr>
+        <tr><td>Fire Brigade</td><td>101</td></tr>
+        <tr><td>Emergency (all services)</td><td>112</td></tr>
+        <tr><td>Gas Emergency</td><td>104</td></tr>
+        <tr><td>State Migration Service</td><td>(+994 12) 919</td></tr>
+      </table>
+    </div>
+
+    <!-- Cost of Living -->
+    <div class="essentials-block">
+      <div class="essentials-block-header">💰 Monthly Cost of Living Estimates</div>
+      <table class="essentials-table">
+        <tr><td>Rent (1-room, central)</td><td>350 – 600 AZN</td></tr>
+        <tr><td>Rent (1-room, outer district)</td><td>150 – 300 AZN</td></tr>
+        <tr><td>Utilities (electricity, water, internet)</td><td>60 – 120 AZN</td></tr>
+        <tr><td>Groceries (budget)</td><td>150 – 250 AZN</td></tr>
+        <tr><td>University cafeteria meal</td><td>3 – 8 AZN</td></tr>
+        <tr><td>Restaurant meal (mid-range)</td><td>10 – 25 AZN</td></tr>
+        <tr><td>Metro/Bus (daily commute)</td><td>15 – 25 AZN/month</td></tr>
+        <tr><td>Mobile SIM + data (monthly)</td><td>10 – 25 AZN</td></tr>
+        <tr><td><strong>Estimated total (budget)</strong></td><td><strong>~450 – 700 AZN/month</strong></td></tr>
+        <tr><td><strong>Estimated total (comfortable)</strong></td><td><strong>~700 – 1,100 AZN/month</strong></td></tr>
+      </table>
+    </div>
+
+    <!-- Currency -->
+    <div class="essentials-block">
+      <div class="essentials-block-header">💱 Currency &amp; Payments</div>
+      <table class="essentials-table">
+        <tr><td>Currency</td><td>Azerbaijani Manat (AZN / ₼)</td></tr>
+        <tr><td>Exchange rate (approx.)</td><td>1 USD ≈ 1.70 AZN &nbsp;|&nbsp; 1 EUR ≈ 1.85 AZN</td></tr>
+        <tr><td>ATMs</td><td>Widely available. Visa/Mastercard accepted at most.</td></tr>
+        <tr><td>Card payments</td><td>Common in malls, restaurants, supermarkets. Smaller shops prefer cash.</td></tr>
+        <tr><td>Best exchange</td><td>Bank branches or official exchange booths (avoid street changers)</td></tr>
+      </table>
+    </div>
+
+    <!-- Useful Apps -->
+    <div class="essentials-block">
+      <div class="essentials-block-header">📱 Useful Apps</div>
+      <table class="essentials-table">
+        <tr><td>Bolt</td><td>Ride-hailing — cheapest taxis in Baku</td></tr>
+        <tr><td>Uber</td><td>Ride-hailing — available and reliable</td></tr>
+        <tr><td>Birbank (Kapital)</td><td>Mobile banking, instant transfers, bill pay</td></tr>
+        <tr><td>ABB Mobile</td><td>ABB Bank mobile app</td></tr>
+        <tr><td>IABS</td><td>Baku public transport route planner</td></tr>
+        <tr><td>Wolt / Bolt Food</td><td>Food delivery — very popular in Baku</td></tr>
+        <tr><td>Google Maps</td><td>Works well in Baku; includes metro routes</td></tr>
+        <tr><td>Azercell / Bakcell apps</td><td>Manage your SIM, buy data bundles</td></tr>
+      </table>
+    </div>
+
+    <!-- Key Links -->
+    <div class="essentials-block">
+      <div class="essentials-block-header">🔗 Key Official Links</div>
+      <table class="essentials-table">
+        <tr><td>State Migration Service</td><td><a href="https://migration.gov.az/en" target="_blank" rel="noopener">migration.gov.az</a></td></tr>
+        <tr><td>Ministry of Foreign Affairs</td><td><a href="https://mfa.gov.az/en" target="_blank" rel="noopener">mfa.gov.az</a></td></tr>
+        <tr><td>ASAN Service (e-Gov)</td><td><a href="https://asan.gov.az" target="_blank" rel="noopener">asan.gov.az</a></td></tr>
+        <tr><td>Baku Metro official site</td><td><a href="http://metro.gov.az" target="_blank" rel="noopener">metro.gov.az</a></td></tr>
+        <tr><td>ADA University</td><td><a href="https://ada.edu.az" target="_blank" rel="noopener">ada.edu.az</a></td></tr>
+        <tr><td>Baku State University</td><td><a href="https://bsu.edu.az" target="_blank" rel="noopener">bsu.edu.az</a></td></tr>
+        <tr><td>Khazar University</td><td><a href="https://khazar.org" target="_blank" rel="noopener">khazar.org</a></td></tr>
+        <tr><td>UNEC</td><td><a href="https://unec.edu.az" target="_blank" rel="noopener">unec.edu.az</a></td></tr>
+      </table>
+    </div>
+
+    <div class="alert alert-success">
+      ✅ <strong>Pro tip:</strong> Download Bolt and a mobile banking app before you land — you'll need them immediately on arrival.
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script type="module" src="../js/app.js"></script>
 </body>
 </html>

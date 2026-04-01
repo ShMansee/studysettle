@@ -4,33 +4,69 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../css/style.css" />
-  <title>Essentials • StudySettle</title>
+  <title>Login • StudySettle</title>
 </head>
 <body>
- <nav class="nav">
-    <ul>
-      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
-      <li><a href="documents.html" data-i18n="nav_documents">Documents</a></li>
-      <li><a href="housing.html" data-i18n="nav_housing">Housing</a></li>
-      <li><a href="explore.html" data-i18n="nav_explore">Explore</a></li>
-      <li><a href="essentials.html" data-i18n="nav_essentials">Essentials</a></li>
-      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
-      <li><a href="register.html" data-i18n="nav_register">Register</a></li>
-      <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-      <li><a href="admin.html" data-i18n="nav_admin">Admin</a></li>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html"       data-i18n="nav_home">Home</a></li>
+      <li><a href="documents.html"      data-i18n="nav_documents">Documents</a></li>
+      <li><a href="housing.html"        data-i18n="nav_housing">Housing</a></li>
+      <li><a href="explore.html"        data-i18n="nav_explore">Explore</a></li>
+      <li><a href="essentials.html"     data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="login.html"          data-i18n="nav_login">Login</a></li>
+      <li><a href="register.html"       data-i18n="nav_register">Register</a></li>
+      <li><a href="dashboard.html"      data-i18n="nav_dashboard">Dashboard</a></li>
     </ul>
-    <div>
-      <button id="lang-en">EN</button>
-      <button id="lang-az">AZ</button>
-      <button id="lang-ru">RU</button>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
     </div>
   </nav>
+</header>
 
-  <main class="container">
-    <h1 data-i18n="nav_essentials">Essentials</h1>
-    <p>Coming soon.</p>
-  </main>
+<main>
+  <div class="form-card">
+    <div class="card-icon" style="text-align:center;font-size:2.5rem;margin-bottom:8px">🎓</div>
+    <h1 data-i18n="nav_login">Login</h1>
+    <p class="subtitle" data-i18n="subtitle">Your student relocation helper for Baku</p>
 
-  <script type="module" src="../js/app.js"></script>
+    <div class="alert alert-info" style="margin-bottom:20px;font-size:.85rem">
+      🔒 <span data-i18n="placeholder_firebase">Firebase authentication will be added soon.</span>
+    </div>
+
+    <form onsubmit="return false;">
+      <div class="form-group">
+        <label for="login-email" data-i18n="lbl_email">Email address</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label for="login-password" data-i18n="lbl_password">Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%" data-i18n="btn_login">Sign In</button>
+    </form>
+
+    <p class="form-footer">
+      <span data-i18n="link_no_account">Don't have an account?</span>
+      <a href="register.html" data-i18n="link_register">Register</a>
+    </p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script type="module" src="../js/app.js"></script>
 </body>
 </html>

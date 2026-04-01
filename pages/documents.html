@@ -7,30 +7,192 @@
   <title>Documents • StudySettle</title>
 </head>
 <body>
-<nav class="nav">
-    <ul>
-      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
-      <li><a href="documents.html" data-i18n="nav_documents">Documents</a></li>
-      <li><a href="housing.html" data-i18n="nav_housing">Housing</a></li>
-      <li><a href="explore.html" data-i18n="nav_explore">Explore</a></li>
-      <li><a href="essentials.html" data-i18n="nav_essentials">Essentials</a></li>
-      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
-      <li><a href="register.html" data-i18n="nav_register">Register</a></li>
-      <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
-      <li><a href="admin.html" data-i18n="nav_admin">Admin</a></li>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html"       data-i18n="nav_home">Home</a></li>
+      <li><a href="documents.html"      data-i18n="nav_documents">Documents</a></li>
+      <li><a href="housing.html"        data-i18n="nav_housing">Housing</a></li>
+      <li><a href="explore.html"        data-i18n="nav_explore">Explore</a></li>
+      <li><a href="essentials.html"     data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="login.html"          data-i18n="nav_login">Login</a></li>
+      <li><a href="register.html"       data-i18n="nav_register">Register</a></li>
+      <li><a href="dashboard.html"      data-i18n="nav_dashboard">Dashboard</a></li>
     </ul>
-    <div>
-      <button id="lang-en">EN</button>
-      <button id="lang-az">AZ</button>
-      <button id="lang-ru">RU</button>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+      <select id="university-selector" class="university-select">
+        <option value="ada">ADA University</option>
+        <option value="baku-state">Baku State University</option>
+        <option value="unec">UNEC</option>
+        <option value="khazar">Khazar University</option>
+      </select>
     </div>
   </nav>
+</header>
 
-  <main class="container">
-    <h1 data-i18n="nav_documents">Documents</h1>
-    <p>Coming soon.</p>
-  </main>
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>📄 <span data-i18n="nav_documents">Documents</span></h1>
+      <p>Step-by-step checklist for every document you need as an international student in Baku.</p>
+    </div>
+  </div>
 
-  <script type="module" src="../js/app.js"></script>
+  <div class="container section">
+
+    <div class="alert alert-info">
+      ℹ️ Always check official sources for the latest requirements. Regulations may change. This checklist is based on common student experiences.
+    </div>
+
+    <!-- Before Arrival -->
+    <div class="checklist-section">
+      <h2>✈️ Before Arrival</h2>
+      <ul class="checklist">
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Official Admission Letter</strong>
+            <span>Obtain your letter of acceptance from your university. Keep a printed and digital copy.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Student Visa (if required)</strong>
+            <span>Apply at the nearest Azerbaijani embassy/consulate. Bring admission letter, passport photos, fee, and application form.</span>
+            <a href="https://mfa.gov.az/en/content/72/consular-services" target="_blank" rel="noopener">MFA Azerbaijan — Consular Services ↗</a>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Passport</strong>
+            <span>Valid for at least 6 months beyond your planned stay. Make 3–4 photocopies before departure.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Medical Certificate</strong>
+            <span>Some universities require a recent medical certificate (HIV test + general health). Check your university's requirements.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Certified Diploma / Transcript</strong>
+            <span>Notarised and apostilled copies of your previous diplomas or high school certificate.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- On Arrival -->
+    <div class="checklist-section">
+      <h2>🏙️ On Arrival (First 30 Days)</h2>
+      <ul class="checklist">
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Temporary Residence Permit (Müvəqqəti Yaşayış İcazəsi)</strong>
+            <span>Apply at the State Migration Service within 15 days of arrival. Required documents: passport, invitation/admission letter, housing address, 2 photos, fee.</span>
+            <a href="https://migration.gov.az/en" target="_blank" rel="noopener">State Migration Service ↗</a>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Registration of Address</strong>
+            <span>Register your residential address with local authorities. Your landlord or dormitory can often help with this.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Student ID Card</strong>
+            <span>Collect from your university registrar after enrolment. Used for library access, discounts, and official identification.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>University Enrolment / Registration</strong>
+            <span>Complete official enrolment. Obtain enrolment certificate — needed for residence permit and other applications.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Banking & SIM -->
+    <div class="checklist-section">
+      <h2>💳 Banking &amp; SIM Card</h2>
+      <ul class="checklist">
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Open a Bank Account</strong>
+            <span>Popular options: ABB Bank, Kapital Bank, PASHA Bank. Bring passport + residence permit. Some banks allow account opening before residence permit.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>SIM Card</strong>
+            <span>Buy at operator shops (Azercell, Bakcell, Nar Mobile). Bring your passport. Starting plans from ~3–5 AZN. Data packages available.</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>BakıKart (Transport Card)</strong>
+            <span>Rechargeable card for metro and buses. Get it at metro ticket offices for 2 AZN. Single ride: 0.40 AZN.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Health Insurance -->
+    <div class="checklist-section">
+      <h2>🏥 Health Insurance</h2>
+      <ul class="checklist">
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Health Insurance Policy</strong>
+            <span>Required for residence permit application. Check if your university provides group insurance, or purchase privately (PASHA Insurance, AXA, Ateshgah).</span>
+          </div>
+        </li>
+        <li>
+          <span class="check-icon">✔</span>
+          <div class="item-text">
+            <strong>Know Your Nearest Clinic</strong>
+            <span>Register with a local polyclinic. International students can use Baku clinics; carry your insurance card and passport at all times.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="alert alert-warning">
+      ⚠️ Keep all original documents and photocopies in a safe place. Carry copies, not originals, for daily errands.
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script type="module" src="../js/app.js"></script>
 </body>
 </html>
