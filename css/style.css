@@ -30,3 +30,17 @@ body {
         flex-direction: column;
     }
 }
+/* nav list layout fix */
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.nav li {
+  margin: 0;
+  padding: 0;
+}
