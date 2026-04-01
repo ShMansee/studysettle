@@ -40,11 +40,14 @@ export const I18N = {
   }
 };
 
-export function getLang() {
-  return localStorage.getItem("lang") || "en";
-}
+const LANG_KEY = "lang";
+
 export function setLang(lang) {
-  localStorage.setItem("lang", lang);
+  localStorage.setItem(LANG_KEY, lang);
+}
+
+export function getLang() {
+  return localStorage.getItem(LANG_KEY) || "en";
 }
 
 export function t(key, lang = getLang()) {
