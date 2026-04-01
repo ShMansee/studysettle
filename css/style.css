@@ -739,6 +739,27 @@ main { flex: 1; }
   font-size: .95rem;
 }
 
+/* ---------- Link list (external links) ---------- */
+.link-list {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.link-list a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(37, 99, 235, 0.45);
+  transition: border-color var(--transition), color var(--transition), opacity var(--transition);
+}
+
+.link-list a:hover {
+  color: var(--primary-dark);
+  border-bottom-color: rgba(37, 99, 235, 0.85);
+  opacity: 1;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .dashboard-grid { grid-template-columns: 1fr; }
@@ -780,6 +801,3 @@ main { flex: 1; }
   .form-card  { padding: 24px 18px; }
   .lang-btn   { padding: 4px 7px; font-size: .75rem; }
 }
-
-.link-list a { text-decoration: underline; }
-.link-list a:hover { opacity: 0.85; }
