@@ -7,8 +7,7 @@ const UNIV_KEY = "university";
    ========================= */
 
 // Your published CSV link (you already sent this)
-const HOUSING_SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQu6Cg-7WxSCMr_MtSzIMFZkZmgce5xVTDPFFaRU66BUaas9IjSkOje-JvWN-1U--5QJMNfLXiXpbFn/pub?gid=0&single=true&output=csv";
+const HOUSING_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQu6Cg-7WxSCMr_MtSzIMFZkZmgce5xVTDPFFaRU66BUaas9IjSkOje-JvWN-1U--5QJMNfLXiXpbFn/pub?gid=0&single=true&output=csv";
 
 // TODO: replace with your real email address (for the "Send request" form)
 const HOUSING_REQUEST_EMAIL = "amanbekabilmansur@gmail.com";
