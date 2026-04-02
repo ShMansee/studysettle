@@ -5,14 +5,14 @@ const UNIV_KEY = "university";
 /* =========================
    LIVE listings via Google Sheets (CSV)
    ========================= */
-
-// Your published CSV link (you already sent this)
 const HOUSING_SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQu6Cg-7WxSCMr_MtSzIMFZkZmgce5xVTDPFFaRU66BUaas9IjSkOje-JvWN-1U--5QJMNfLXiXpbFn/pub?gid=0&single=true&output=csv";
 
-// TODO: replace with your real email address (for the "Send request" form)
 const HOUSING_REQUEST_EMAIL = "amanbekabilmansur@gmail.com";
 
+/* ------------------------------
+   Language + Nav
+------------------------------ */
 function wireLanguageButtons() {
   const buttons = {
     "lang-en": "en",
@@ -69,9 +69,11 @@ function wireMobileMenu() {
   const toggle = document.getElementById("nav-toggle");
   const links = document.getElementById("nav-links");
   if (!toggle || !links) return;
+
   toggle.addEventListener("click", () => {
     links.classList.toggle("open");
   });
+
   // Close menu when a link is clicked
   links.querySelectorAll("a").forEach(a => {
     a.addEventListener("click", () => links.classList.remove("open"));
@@ -79,8 +81,8 @@ function wireMobileMenu() {
 }
 
 /* ============================================================
-   Housing Finder (runs only on pages that have #hf-results)
-   - Loads LIVE listings from Google Sheets (CSV)
+   Housing Finder (LIVE via Google Sheets CSV)
+   - Runs only on pages that have #hf-results
    - Filters locally by university, distance, rent, type
    - "Send request" uses mailto:
    ============================================================ */
@@ -162,7 +164,7 @@ async function fetchListingsFromSheet() {
     const obj = {};
     headers.forEach((h, idx) => (obj[h] = (r[idx] ?? "").trim()));
 
-    // NOTE: your sheet MUST have headers:
+    // Sheet headers MUST be exactly:
     // active,title,type,rent,distanceKm,university,district,rooms,url
     return {
       active: String(obj.active).toLowerCase() === "true",
@@ -177,7 +179,6 @@ async function fetchListingsFromSheet() {
     };
   });
 
-  // show only active rows
   return listings.filter(x => x.active);
 }
 
@@ -198,10 +199,12 @@ function initHousingFinder() {
   const globalUni = document.getElementById("university-selector");
   if (globalUni && uniEl) {
     uniEl.value = globalUni.value;
+
     globalUni.addEventListener("change", () => {
       uniEl.value = globalUni.value;
       refresh();
     });
+
     uniEl.addEventListener("change", () => {
       globalUni.value = uniEl.value;
       localStorage.setItem(UNIV_KEY, uniEl.value);
@@ -321,10 +324,8 @@ function initHousingFinder() {
 
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
-
     const subject = encodeURIComponent("StudySettle — Housing request");
     const body = encodeURIComponent(buildRequestText());
-
     window.location.href = `mailto:${HOUSING_REQUEST_EMAIL}?subject=${subject}&body=${body}`;
   });
 
@@ -342,5 +343,10 @@ function initHousingFinder() {
   refresh();
 }
 
+/* ------------------------------ */
 wireLanguageButtons();
-wire](#)*
+wireUniversitySelector();
+highlightActiveNav();
+wireMobileMenu();
+applyTranslations(getLang());
+initHousingFinder();
