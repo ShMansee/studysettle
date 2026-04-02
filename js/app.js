@@ -2,6 +2,17 @@ import { applyTranslations, getLang, setLang } from "./i18n.js";
 
 const UNIV_KEY = "university";
 
+/* =========================
+   LIVE listings via Google Sheets (CSV)
+   ========================= */
+
+// Your published CSV link (you already sent this)
+const HOUSING_SHEET_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vQu6Cg-7WxSCMr_MtSzIMFZkZmgce5xVTDPFFaRU66BUaas9IjSkOje-JvWN-1U--5QJMNfLXiXpbFn/pub?gid=0&single=true&output=csv";
+
+// TODO: replace with your real email address (for the "Send request" form)
+const HOUSING_REQUEST_EMAIL = "amanbekabilmansur@gmail.com";
+
 function wireLanguageButtons() {
   const buttons = {
     "lang-en": "en",
@@ -47,14 +58,16 @@ function highlightActiveNav() {
     // Normalise: strip leading ".." and "/"
     const normalised = href.replace(/^\.\.\//, "").replace(/^\//, "");
     const isHome = (normalised === "index.html" || normalised === "");
-    const isActive = path.endsWith(normalised) || (isHome && (path.endsWith("/") || path.endsWith("index.html")));
+    const isActive =
+      path.endsWith(normalised) ||
+      (isHome && (path.endsWith("/") || path.endsWith("index.html")));
     a.classList.toggle("active", isActive);
   });
 }
 
 function wireMobileMenu() {
   const toggle = document.getElementById("nav-toggle");
-  const links  = document.getElementById("nav-links");
+  const links = document.getElementById("nav-links");
   if (!toggle || !links) return;
   toggle.addEventListener("click", () => {
     links.classList.toggle("open");
@@ -67,13 +80,110 @@ function wireMobileMenu() {
 
 /* ============================================================
    Housing Finder (runs only on pages that have #hf-results)
-   - Filters are local UI only (example ranges, not live listings)
-   - "Send request" uses mailto: to email you the details
+   - Loads LIVE listings from Google Sheets (CSV)
+   - Filters locally by university, distance, rent, type
+   - "Send request" uses mailto:
    ============================================================ */
+
+function esc(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+// Simple CSV parser (handles commas + quotes)
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cur = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const next = text[i + 1];
+
+    // escaped quote inside quoted field ("")
+    if (ch === '"' && inQuotes && next === '"') {
+      cur += '"';
+      i++;
+      continue;
+    }
+
+    // toggle quotes
+    if (ch === '"') {
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    // comma ends cell
+    if (!inQuotes && ch === ",") {
+      row.push(cur);
+      cur = "";
+      continue;
+    }
+
+    // newline ends row
+    if (!inQuotes && (ch === "\n" || ch === "\r")) {
+      if (ch === "\r" && next === "\n") i++;
+      row.push(cur);
+      rows.push(row);
+      row = [];
+      cur = "";
+      continue;
+    }
+
+    cur += ch;
+  }
+
+  // last cell/row
+  if (cur.length || row.length) {
+    row.push(cur);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
+async function fetchListingsFromSheet() {
+  const res = await fetch(HOUSING_SHEET_CSV_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
+  const csv = await res.text();
+
+  const rows = parseCSV(csv).filter(r => r.some(c => String(c).trim() !== ""));
+  if (rows.length < 2) return [];
+
+  const headers = rows[0].map(h => h.trim());
+  const dataRows = rows.slice(1);
+
+  const listings = dataRows.map(r => {
+    const obj = {};
+    headers.forEach((h, idx) => (obj[h] = (r[idx] ?? "").trim()));
+
+    // NOTE: your sheet MUST have headers:
+    // active,title,type,rent,distanceKm,university,district,rooms,url
+    return {
+      active: String(obj.active).toLowerCase() === "true",
+      title: obj.title,
+      type: obj.type,
+      rent: Number(obj.rent),
+      distanceKm: Number(obj.distanceKm),
+      university: obj.university,
+      district: obj.district,
+      rooms: obj.rooms ? Number(obj.rooms) : null,
+      url: obj.url
+    };
+  });
+
+  // show only active rows
+  return listings.filter(x => x.active);
+}
 
 function initHousingFinder() {
   const resultsEl = document.getElementById("hf-results");
-  if (!resultsEl) return; // only run on housing.html (or any page that includes the widget)
+  if (!resultsEl) return;
 
   const uniEl = document.getElementById("hf-university");
   const distEl = document.getElementById("hf-distance");
@@ -84,79 +194,19 @@ function initHousingFinder() {
   const chips = Array.from(document.querySelectorAll(".chip[data-type]"));
   let selectedType = "any";
 
-  // If the global university selector exists, sync it into the finder
+  // Sync global university selector (top nav) -> finder
   const globalUni = document.getElementById("university-selector");
   if (globalUni && uniEl) {
     uniEl.value = globalUni.value;
     globalUni.addEventListener("change", () => {
       uniEl.value = globalUni.value;
-      render();
+      refresh();
     });
     uniEl.addEventListener("change", () => {
       globalUni.value = uniEl.value;
       localStorage.setItem(UNIV_KEY, uniEl.value);
-      render();
+      refresh();
     });
-  }
-
-  // Example dataset (NOT live listings)
-  const samples = [
-    { title: "Shared room (near metro)", type: "shared", baseMin: 250, baseMax: 450, nearKm: 5 },
-    { title: "Studio / 1-room (older building)", type: "studio", baseMin: 400, baseMax: 700, nearKm: 7 },
-    { title: "Studio / 1-room (newer building)", type: "studio", baseMin: 600, baseMax: 1000, nearKm: 10 },
-    { title: "2-room (share with roommate)", type: "two", baseMin: 550, baseMax: 1100, nearKm: 12 },
-  ];
-
-  function esc(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
-  function render() {
-    if (!uniEl || !distEl || !priceEl || !distValEl || !priceValEl) return;
-
-    const maxKm = Number(distEl.value);
-    const maxPrice = Number(priceEl.value);
-
-    distValEl.textContent = String(maxKm);
-    priceValEl.textContent = String(maxPrice);
-
-    const filtered = samples.filter(s => {
-      const typeOk = selectedType === "any" ? true : s.type === selectedType;
-      const kmOk = s.nearKm <= maxKm;
-      const priceOk = s.baseMin <= maxPrice;
-      return typeOk && kmOk && priceOk;
-    });
-
-    if (filtered.length === 0) {
-      resultsEl.innerHTML = `
-        <div class="housing-result">
-          <h4>No matches</h4>
-          <p>Try increasing distance or budget.</p>
-          <div class="meta">
-            <span class="pill">Tip</span>
-            <span class="pill">Adjust filters</span>
-          </div>
-        </div>
-      `;
-      return;
-    }
-
-    resultsEl.innerHTML = filtered.map(s => `
-      <div class="housing-result">
-        <h4>${esc(s.title)}</h4>
-        <p>Example range based on typical areas and distance from campus.</p>
-        <div class="meta">
-          <span class="pill">${esc(s.nearKm)} km</span>
-          <span class="pill">${esc(s.baseMin)}–${esc(s.baseMax)} AZN</span>
-          <span class="pill">${esc(s.type)}</span>
-        </div>
-      </div>
-    `).join("");
   }
 
   chips.forEach(btn => {
@@ -164,13 +214,82 @@ function initHousingFinder() {
       chips.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       selectedType = btn.dataset.type || "any";
-      render();
+      refresh();
     });
   });
 
-  distEl?.addEventListener("input", render);
-  priceEl?.addEventListener("input", render);
-  uniEl?.addEventListener("change", render);
+  distEl?.addEventListener("input", refresh);
+  priceEl?.addEventListener("input", refresh);
+  uniEl?.addEventListener("change", refresh);
+
+  let allListings = [];
+  let loadedOnce = false;
+
+  function applyFilters(listings) {
+    const maxKm = Number(distEl.value);
+    const maxPrice = Number(priceEl.value);
+
+    distValEl.textContent = String(maxKm);
+    priceValEl.textContent = String(maxPrice);
+
+    return listings.filter(l => {
+      const uniOk = l.university === uniEl.value;
+      const typeOk = selectedType === "any" ? true : (l.type === selectedType);
+      const kmOk = Number(l.distanceKm) <= maxKm;
+      const priceOk = Number(l.rent) <= maxPrice;
+      return uniOk && typeOk && kmOk && priceOk;
+    });
+  }
+
+  function renderListings(listings) {
+    if (!listings.length) {
+      resultsEl.innerHTML = `
+        <div class="housing-result">
+          <h4>No live matches</h4>
+          <p>Try increasing distance/budget, changing type, or switch university.</p>
+          <div class="meta">
+            <span class="pill">Live</span>
+            <span class="pill">Google Sheet</span>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    resultsEl.innerHTML = listings.map(l => `
+      <div class="housing-result">
+        <h4>${esc(l.title || "Listing")}</h4>
+        <p>${esc(l.district || "Baku")} • ${esc(l.university || "")}</p>
+        <div class="meta">
+          <span class="pill">${esc(l.distanceKm)} km</span>
+          <span class="pill">${esc(l.rent)} AZN</span>
+          <span class="pill">${esc(l.type)}</span>
+          ${l.rooms ? `<span class="pill">${esc(l.rooms)} rooms</span>` : ""}
+        </div>
+        ${l.url ? `<p style="margin-top:10px"><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">Open listing</a></p>` : ""}
+      </div>
+    `).join("");
+  }
+
+  async function loadListingsOnce() {
+    resultsEl.innerHTML = `<div class="housing-result"><h4>Loading live listings…</h4><p>Please wait.</p></div>`;
+    allListings = await fetchListingsFromSheet();
+    loadedOnce = true;
+  }
+
+  async function refresh() {
+    try {
+      if (!loadedOnce) await loadListingsOnce();
+      renderListings(applyFilters(allListings));
+    } catch (e) {
+      resultsEl.innerHTML = `
+        <div class="housing-result">
+          <h4>Could not load listings</h4>
+          <p>Make sure the sheet is published as CSV and headers match exactly. Error: ${esc(e?.message || e)}</p>
+        </div>
+      `;
+    }
+  }
 
   // Form actions (mailto + copy)
   const form = document.getElementById("hf-form");
@@ -203,13 +322,10 @@ function initHousingFinder() {
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // TODO: replace with YOUR real email address
-    const to = "YOUR_EMAIL_HERE";
-
     const subject = encodeURIComponent("StudySettle — Housing request");
     const body = encodeURIComponent(buildRequestText());
 
-    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${HOUSING_REQUEST_EMAIL}?subject=${subject}&body=${body}`;
   });
 
   copyBtn?.addEventListener("click", async () => {
@@ -223,12 +339,8 @@ function initHousingFinder() {
     }
   });
 
-  render();
+  refresh();
 }
 
 wireLanguageButtons();
-wireUniversitySelector();
-highlightActiveNav();
-wireMobileMenu();
-applyTranslations(getLang());
-initHousingFinder();
+wire](#)*
