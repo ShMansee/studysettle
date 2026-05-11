@@ -106,9 +106,33 @@
               <button type="button" class="chip" data-type="two">2-room</button>
             </div>
           </div>
+
+          <div class="filter-item">
+            <label for="hf-location"><strong>Preferred area / district</strong></label>
+            <select id="hf-location">
+              <option value="">Any district</option>
+              <option value="Narimanov">Narimanov</option>
+              <option value="Nizami">Nizami</option>
+              <option value="Yasamal">Yasamal</option>
+              <option value="Elmler">Elmler</option>
+              <option value="Sahil">Sahil</option>
+              <option value="Icherisheher">Icherisheher</option>
+              <option value="28 May">28 May</option>
+              <option value="Ganjlik">Ganjlik</option>
+              <option value="Xetai">Xetai</option>
+              <option value="Neftchilar">Neftchilar</option>
+              <option value="8 Noyabr">8 Noyabr</option>
+              <option value="Bineqedi">Bineqedi</option>
+              <option value="Masazir">Masazir</option>
+            </select>
+            <div class="muted" style="font-size:.85rem;margin-top:6px;color:var(--text-muted)">
+              Optional: used for cleaner bina.az search matching.
+            </div>
+          </div>
         </div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px">
+          <button class="btn btn-primary btn-sm" type="button" id="hf-bina-search">Search on bina.az with my filters</button>
           <a class="btn btn-primary btn-sm" href="https://bina.az/" target="_blank" rel="noopener noreferrer">Browse bina.az</a>
           <a class="btn btn-outline btn-sm" href="https://tap.az/" target="_blank" rel="noopener noreferrer">Browse tap.az</a>
         </div>
@@ -122,9 +146,12 @@
         <h3>Estimated ranges (examples)</h3>
       </div>
       <div class="info-card-body">
+        <div id="hf-live-summary" class="alert alert-info" style="margin-bottom:12px">
+          Live matches are loading...
+        </div>
         <div id="hf-results" class="housing-results"></div>
         <p class="muted" style="margin-top:12px; color:var(--text-muted); font-size:.85rem">
-          These are example ranges, not live listings. We can help you shortlist real options if you send a request below.
+          These are live matches from your connected listing source, filtered by your selected university, distance, budget, and type.
         </p>
       </div>
     </div>

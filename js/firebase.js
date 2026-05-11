@@ -16,3 +16,8 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 export const ADMIN_EMAILS = ["amanbekabilmansur@gmail.com"];
+
+export function isAdminEmail(email) {
+  if (!email) return false;
+  return ADMIN_EMAILS.includes(String(email).trim().toLowerCase());
+}

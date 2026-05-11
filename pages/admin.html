@@ -37,8 +37,8 @@
 
 <main>
   <div class="container">
-    <div class="alert alert-warning" style="margin-top:24px">
-      ⚠️ <span data-i18n="placeholder_firebase">Firebase authentication will be added soon.</span> Admin access will be role-gated.
+    <div class="alert alert-info" style="margin-top:24px">
+      🛡️ Admin page is protected. Only users with admin role can access this page.
     </div>
 
     <div class="dashboard-grid">
@@ -54,7 +54,7 @@
           <li><a href="#">👥 Users</a></li>
           <li><a href="#">🏫 Universities</a></li>
           <li><a href="#">📄 Content</a></li>
-          <li><a href="#" style="color:var(--danger)" data-i18n="btn_logout">Log Out</a></li>
+          <li><a href="#" style="color:var(--danger)" data-i18n="btn_logout" data-logout="true">Log Out</a></li>
         </ul>
       </aside>
 
@@ -65,33 +65,16 @@
           <div class="stat-grid">
             <div class="stat"><span class="num">48</span><span class="lbl">Total Users</span></div>
             <div class="stat"><span class="num">4</span><span class="lbl">Universities</span></div>
-            <div class="stat"><span class="num">12</span><span class="lbl">Content Pages</span></div>
+            <div class="stat"><span class="num">0</span><span class="lbl">Admins</span></div>
             <div class="stat"><span class="num">3</span><span class="lbl">Languages</span></div>
           </div>
         </div>
 
         <div class="dash-card">
           <h2>👥 Recent Users</h2>
-          <table class="essentials-table">
+          <table class="essentials-table" id="admin-users-table">
             <tr>
-              <td><strong>Alex Petrov</strong></td>
-              <td><span class="badge badge-blue">ADA</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-            </tr>
-            <tr>
-              <td><strong>Sara Mammadova</strong></td>
-              <td><span class="badge badge-blue">BSU</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-            </tr>
-            <tr>
-              <td><strong>Kim Nguyen</strong></td>
-              <td><span class="badge badge-blue">UNEC</span></td>
-              <td><span class="badge badge-yellow">Pending</span></td>
-            </tr>
-            <tr>
-              <td><strong>Maria Santos</strong></td>
-              <td><span class="badge badge-blue">Khazar</span></td>
-              <td><span class="badge badge-green">Active</span></td>
+              <td colspan="4">Loading users...</td>
             </tr>
           </table>
         </div>
