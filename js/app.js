@@ -18,6 +18,7 @@ import {
   serverTimestamp,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { supabase, supabaseReady } from "./supabase.js";
 
 const UNIV_KEY = "university";
 const LOGIN_PAGE = "pages/login.html";
@@ -365,6 +366,288 @@ async function initAdminPage() {
   const users = snap.docs.map(item => item.data());
   renderAdminUsers(users);
   updateAdminStats(users);
+}
+
+function initDocumentsTracker() {
+  if (!isCurrentPage("pages/documents.html")) return;
+  const checklistItems = Array.from(document.querySelectorAll(".checklist li"));
+  if (!checklistItems.length) return;
+
+  const progressText = document.getElementById("doc-progress-text");
+  const progressFill = document.getElementById("doc-progress-fill");
+  const storageKey = "docChecklistStateV1";
+  const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+  checklistItems.forEach((item, idx) => {
+    const title = item.querySelector("strong")?.textContent?.trim() || `Step ${idx + 1}`;
+    const key = `${idx}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    item.dataset.docKey = key;
+
+    const checkIcon = item.querySelector(".check-icon");
+    if (checkIcon) checkIcon.remove();
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "doc-check-input";
+    checkbox.checked = Boolean(saved[key]);
+    checkbox.setAttribute("aria-label", `Complete ${title}`);
+    item.prepend(checkbox);
+
+    checkbox.addEventListener("change", () => {
+      saved[key] = checkbox.checked;
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    const done = checklistItems.filter(item => item.querySelector(".doc-check-input")?.checked).length;
+    const total = checklistItems.length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    if (progressText) progressText.textContent = `${done}/${total} steps completed`;
+    if (progressFill) progressFill.style.width = `${pct}%`;
+  }
+
+  updateProgress();
+}
+
+function initMapPage() {
+  const mapEl = document.getElementById("baku-map");
+  if (!mapEl || !window.L) return;
+
+  const map = window.L.map("baku-map").setView([40.3838, 49.8671], 12);
+  window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
+
+  const universities = window.L.layerGroup();
+  const neighborhoods = window.L.layerGroup();
+  const metro = window.L.layerGroup();
+  const useful = window.L.layerGroup();
+
+  [
+    ["ADA University", 40.3947, 49.8464],
+    ["Baku State University", 40.3708, 49.8251],
+    ["UNEC", 40.3969, 49.8587],
+    ["Khazar University (Neftchilar)", 40.4062, 49.9450]
+  ].forEach(([name, lat, lng]) => window.L.marker([lat, lng]).bindPopup(`🎓 ${name}`).addTo(universities));
+
+  [
+    ["Narimanov", 40.4020, 49.8709],
+    ["Sahil", 40.3725, 49.8465],
+    ["Yasamal", 40.3840, 49.8110],
+    ["Xetai", 40.3777, 49.8892]
+  ].forEach(([name, lat, lng]) => window.L.circle([lat, lng], { radius: 800, color: "#0ea5e9" }).bindPopup(`📍 ${name}`).addTo(neighborhoods));
+
+  [
+    ["28 May", 40.3790, 49.8496],
+    ["Ganjlik", 40.4009, 49.8515],
+    ["Neftchilar", 40.4146, 49.9448],
+    ["Icherisheher", 40.3662, 49.8330]
+  ].forEach(([name, lat, lng]) => window.L.marker([lat, lng]).bindPopup(`🚇 ${name} metro`).addTo(metro));
+
+  [
+    ["ASAN Service #1", 40.4019, 49.8537],
+    ["State Migration Service", 40.4058, 49.8226],
+    ["28 Mall", 40.3786, 49.8506],
+    ["Baku Railway Station", 40.3797, 49.8491]
+  ].forEach(([name, lat, lng]) => window.L.marker([lat, lng]).bindPopup(`🧭 ${name}`).addTo(useful));
+
+  universities.addTo(map);
+  neighborhoods.addTo(map);
+  metro.addTo(map);
+  useful.addTo(map);
+
+  window.L.control.layers(null, {
+    Universities: universities,
+    Neighborhoods: neighborhoods,
+    Metro: metro,
+    "Useful Places": useful
+  }).addTo(map);
+}
+
+function generateTrackingCode() {
+  return `MSG-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
+}
+
+function initUniversityMessaging() {
+  const form = document.getElementById("uni-message-form");
+  const checkForm = document.getElementById("check-reply-form");
+  if (!form && !checkForm) return;
+
+  const statusBanner = document.getElementById("supabase-status");
+  if (statusBanner) {
+    statusBanner.className = `alert ${supabaseReady ? "alert-success" : "alert-warning"}`;
+    statusBanner.textContent = supabaseReady
+      ? "Messaging service is connected."
+      : "Supabase is not configured yet. Add your URL/key in js/supabase.js.";
+  }
+  if (!supabaseReady || !supabase) return;
+
+  const submitResult = document.getElementById("msg-submit-result");
+  const replyResult = document.getElementById("reply-result");
+
+  form?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const payload = {
+      tracking_code: generateTrackingCode(),
+      student_name: document.getElementById("msg-name")?.value?.trim(),
+      student_email: document.getElementById("msg-email")?.value?.trim().toLowerCase(),
+      university: document.getElementById("msg-university")?.value,
+      question: document.getElementById("msg-question")?.value?.trim(),
+      status: "new"
+    };
+
+    const { error } = await supabase.from("university_messages").insert(payload);
+    if (error) {
+      if (submitResult) submitResult.textContent = `Could not send message: ${error.message}`;
+      return;
+    }
+    if (submitResult) {
+      submitResult.innerHTML = `Message sent. Your tracking code is <strong>${esc(payload.tracking_code)}</strong>. Save it to check replies.`;
+    }
+    form.reset();
+  });
+
+  checkForm?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const code = document.getElementById("check-code")?.value?.trim().toUpperCase();
+    const email = document.getElementById("check-email")?.value?.trim().toLowerCase();
+    const { data, error } = await supabase
+      .from("university_messages")
+      .select("tracking_code, university, question, status, reply, created_at, replied_at")
+      .eq("tracking_code", code)
+      .eq("student_email", email)
+      .maybeSingle();
+
+    if (error || !data) {
+      if (replyResult) replyResult.innerHTML = `<div class="alert alert-warning">No message found for that code + email.</div>`;
+      return;
+    }
+    if (replyResult) {
+      replyResult.innerHTML = `
+        <div class="alert alert-info">
+          <strong>Status:</strong> ${esc(data.status)}<br />
+          <strong>University:</strong> ${esc(data.university)}<br />
+          <strong>Question:</strong> ${esc(data.question)}<br />
+          <strong>Reply:</strong> ${esc(data.reply || "No reply yet.")}
+        </div>
+      `;
+    }
+  });
+}
+
+function initUniversityAdmin() {
+  const loginForm = document.getElementById("uni-admin-login-form");
+  if (!loginForm) return;
+  const resultEl = document.getElementById("uni-admin-login-result");
+  const authCard = document.getElementById("uni-admin-auth-card");
+  const panel = document.getElementById("uni-admin-panel");
+  const contextEl = document.getElementById("uni-admin-context");
+  const tbody = document.getElementById("uni-admin-messages-body");
+  const replyForm = document.getElementById("uni-admin-reply-form");
+  const selectedCodeEl = document.getElementById("uni-admin-selected-code");
+  const replyTextEl = document.getElementById("uni-admin-reply-text");
+  const replyResultEl = document.getElementById("uni-admin-reply-result");
+  const logoutBtn = document.getElementById("uni-admin-logout");
+
+  if (!supabaseReady || !supabase) {
+    if (resultEl) resultEl.textContent = "Configure Supabase first in js/supabase.js.";
+    return;
+  }
+
+  let currentUniversity = "";
+
+  async function loadInbox() {
+    const { data, error } = await supabase
+      .from("university_messages")
+      .select("id, tracking_code, student_name, student_email, question, status, reply, created_at")
+      .eq("university", currentUniversity)
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    if (error) {
+      tbody.innerHTML = `<tr><td colspan="4">Failed to load messages.</td></tr>`;
+      return;
+    }
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="4">No messages yet.</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.map(row => `
+      <tr data-message-id="${row.id}" data-code="${esc(row.tracking_code)}">
+        <td>${esc(row.tracking_code)}</td>
+        <td>${esc(row.student_name)}<br /><span class="muted">${esc(row.student_email)}</span></td>
+        <td>${esc(row.question)}</td>
+        <td>${esc(row.status)}</td>
+      </tr>
+    `).join("");
+
+    tbody.querySelectorAll("tr[data-message-id]").forEach(tr => {
+      tr.style.cursor = "pointer";
+      tr.addEventListener("click", () => {
+        selectedCodeEl.value = tr.getAttribute("data-code") || "";
+      });
+    });
+  }
+
+  loginForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const email = document.getElementById("uni-admin-email")?.value?.trim().toLowerCase();
+    const password = document.getElementById("uni-admin-password")?.value || "";
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      resultEl.textContent = `Login failed: ${error.message}`;
+      return;
+    }
+    const { data: adminRow } = await supabase
+      .from("university_admins")
+      .select("university")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (!adminRow?.university) {
+      resultEl.textContent = "No university admin mapping found for this account.";
+      await supabase.auth.signOut();
+      return;
+    }
+    currentUniversity = adminRow.university;
+    authCard.style.display = "none";
+    panel.style.display = "block";
+    contextEl.textContent = `Logged in for university: ${currentUniversity}`;
+    await loadInbox();
+  });
+
+  replyForm?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const code = selectedCodeEl.value.trim();
+    const reply = replyTextEl.value.trim();
+    if (!code || !reply) {
+      replyResultEl.textContent = "Select a message and write a reply.";
+      return;
+    }
+    const { error } = await supabase
+      .from("university_messages")
+      .update({ reply, status: "replied", replied_at: new Date().toISOString() })
+      .eq("tracking_code", code)
+      .eq("university", currentUniversity);
+    if (error) {
+      replyResultEl.textContent = `Reply failed: ${error.message}`;
+      return;
+    }
+    replyResultEl.textContent = `Reply sent for ${code}.`;
+    replyTextEl.value = "";
+    await loadInbox();
+  });
+
+  logoutBtn?.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    panel.style.display = "none";
+    authCard.style.display = "block";
+    selectedCodeEl.value = "";
+    replyTextEl.value = "";
+  });
 }
 
 /* ============================================================
@@ -759,4 +1042,8 @@ initLoginPage();
 initRegisterPage();
 initDashboardPage();
 initAdminPage();
+initDocumentsTracker();
+initMapPage();
+initUniversityMessaging();
+initUniversityAdmin();
 initHousingFinder();

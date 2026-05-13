@@ -927,6 +927,52 @@ main { flex: 1; }
   gap: 12px;
 }
 
+.doc-progress-meta {
+  margin-bottom: 10px;
+  color: var(--text-muted);
+}
+
+.doc-progress-track {
+  width: 100%;
+  height: 10px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.doc-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width var(--transition);
+}
+
+.doc-check-input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+}
+
+.map-container {
+  width: 100%;
+  height: 520px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: .86rem;
+}
+
 @media (max-width: 768px) {
   .filter-grid { grid-template-columns: 1fr; }
   .hf-form-grid { grid-template-columns: 1fr; }

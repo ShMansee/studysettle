@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <title>University Admin Inbox • StudySettle</title>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
+      <li><a href="messages.html">Messages</a></li>
+      <li><a href="university-admin.html">University Admin</a></li>
+      <li><a href="map.html">Map</a></li>
+    </ul>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>🔐 University Admin Inbox</h1>
+      <p>Sign in to view only your university messages and reply to students.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div id="uni-admin-auth-card" class="form-card" style="max-width:560px">
+      <h1 style="text-align:left">Admin Login</h1>
+      <p class="subtitle" style="text-align:left">Use your university admin account.</p>
+      <form id="uni-admin-login-form">
+        <div class="form-group">
+          <label for="uni-admin-email">Email</label>
+          <input id="uni-admin-email" type="email" required />
+        </div>
+        <div class="form-group">
+          <label for="uni-admin-password">Password</label>
+          <input id="uni-admin-password" type="password" required />
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+      </form>
+      <p id="uni-admin-login-result" class="muted" style="margin-top:10px"></p>
+    </div>
+
+    <div id="uni-admin-panel" style="display:none">
+      <div class="dash-card">
+        <h2>Inbox</h2>
+        <p id="uni-admin-context" class="muted"></p>
+        <div class="table-wrap">
+          <table class="essentials-table">
+            <thead>
+              <tr>
+                <td><strong>Code</strong></td>
+                <td><strong>Student</strong></td>
+                <td><strong>Question</strong></td>
+                <td><strong>Status</strong></td>
+              </tr>
+            </thead>
+            <tbody id="uni-admin-messages-body">
+              <tr><td colspan="4">No messages yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="dash-card">
+        <h2>Reply to Selected Message</h2>
+        <form id="uni-admin-reply-form">
+          <div class="form-group">
+            <label for="uni-admin-selected-code">Selected Tracking Code</label>
+            <input id="uni-admin-selected-code" readonly />
+          </div>
+          <div class="form-group">
+            <label for="uni-admin-reply-text">Reply</label>
+            <textarea id="uni-admin-reply-text" rows="5" required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send Reply</button>
+          <button id="uni-admin-logout" class="btn btn-outline" type="button">Log Out</button>
+        </form>
+        <p id="uni-admin-reply-result" class="muted" style="margin-top:10px"></p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+<script type="module" src="../js/app.js"></script>
+</body>
+</html>

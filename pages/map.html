@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <title>Map • StudySettle</title>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="../index.html" class="nav-logo">Study<span>Settle</span></a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../index.html" data-i18n="nav_home">Home</a></li>
+      <li><a href="documents.html" data-i18n="nav_documents">Documents</a></li>
+      <li><a href="housing.html" data-i18n="nav_housing">Housing</a></li>
+      <li><a href="explore.html" data-i18n="nav_explore">Explore</a></li>
+      <li><a href="essentials.html" data-i18n="nav_essentials">Essentials</a></li>
+      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
+      <li><a href="register.html" data-i18n="nav_register">Register</a></li>
+      <li><a href="dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
+      <li><a href="map.html">Map</a></li>
+      <li><a href="messages.html">Messages</a></li>
+    </ul>
+    <div class="nav-controls">
+      <div class="lang-buttons">
+        <button class="lang-btn" id="lang-en">EN</button>
+        <button class="lang-btn" id="lang-az">AZ</button>
+        <button class="lang-btn" id="lang-ru">RU</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <h1>🗺️ Baku Student Map</h1>
+      <p>Universities, neighborhoods, metro stations, and useful spots in one map.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="alert alert-info">Use layer toggles to focus on what you need right now.</div>
+    <div id="baku-map" class="map-container"></div>
+
+    <div class="info-grid" style="margin-top:18px">
+      <div class="info-card"><div class="info-card-body"><strong>🎓 Universities</strong><p>ADA, Baku State, UNEC, Khazar</p></div></div>
+      <div class="info-card"><div class="info-card-body"><strong>📍 Neighborhoods</strong><p>Narimanov, Sahil, Xetai, Yasamal</p></div></div>
+      <div class="info-card"><div class="info-card-body"><strong>🚇 Metro</strong><p>Popular student stations and connectors</p></div></div>
+      <div class="info-card"><div class="info-card-body"><strong>🛒 Useful places</strong><p>Migration, malls, hospitals, transport hubs</p></div></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 StudySettle Baku &mdash; Helping international students settle in Azerbaijan.</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="../js/app.js"></script>
+</body>
+</html>
